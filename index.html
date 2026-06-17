@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Henry Stark - Desarrollo de Soluciones Digitales</title>
+    <meta name="description" content="Creador de apps, bots y soluciones digitales personalizadas. Automatización inteligente y desarrollo a tu medida.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #0A1429;
+            --darker-bg: #050B18;
+            --card-bg: #0F1B33;
+            --accent: #00D9FF;
+            --accent-gold: #FFD700;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0BEC5;
+            --border: #1A2F4A;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, var(--darker-bg) 100%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 20, 41, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin: 0 1.5rem;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent) 0%, #00B8CC 100%);
+            color: var(--dark-bg);
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.95rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero .container {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--text-primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .secondary-button {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.7rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .secondary-button:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        section h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        section > p {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        /* Servicios */
+        #servicios {
+            background: linear-gradient(135deg, rgba(15, 27, 51, 0.5) 0%, rgba(5, 11, 24, 0.5) 100%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.1);
+        }
+
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .service-card ul {
+            list-style: none;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .service-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .service-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Proyectos */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 217, 255, 0.1);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00B8CC 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 2rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tech-tag {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--accent-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        /* Habilidades */
+        #habilidades {
+            background: linear-gradient(135deg, rgba(15, 27, 51, 0.5) 0%, rgba(5, 11, 24, 0.5) 100%);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .skill-category h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--accent-gold) 100%);
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+
+        /* Contacto */
+        #contacto {
+            background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item {
+            margin-bottom: 2rem;
+        }
+
+        .contact-item label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker-bg);
+            border-top: 1px solid var(--border);
+            padding: 3rem 0 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-secondary);
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav a {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button, .secondary-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card, .project-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas for particle animation -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <div class="logo">Henry.dev</div>
+            <div style="display: flex; gap: 3rem; align-items: center;">
+                <a href="#servicios">Servicios</a>
+                <a href="#proyectos">Proyectos</a>
+                <a href="#habilidades">Habilidades</a>
+                <a href="#contacto" class="cta-button">Contactarme</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Soluciones digitales que funcionan.</h1>
+            <p>Apps, bots inteligentes y automatizaciones a tu medida. Tomo tus ideas y las hago realidad con código limpio y tecnología moderna.</p>
+            <div class="hero-buttons">
+                <a href="#contacto" class="cta-button">Hablemos</a>
+                <a href="#proyectos" class="secondary-button">Ver mis proyectos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios">
+        <div class="container">
+            <h2>Qué puedo crear para ti</h2>
+            <p>Desde pequeños scripts hasta aplicaciones complejas, manejo todo el stack necesario para tu proyecto.</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">🤖</div>
+                    <h3>Bots & Automatización</h3>
+                    <p>Asistentes inteligentes que trabajan por ti. Bots de Telegram, WhatsApp, Discord y más — sin parar, sin cansarse.</p>
+                    <ul>
+                        <li>Integración con APIs</li>
+                        <li>Respuestas inteligentes</li>
+                        <li>Automatización de tareas</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon">📱</div>
+                    <h3>Aplicaciones & Web</h3>
+                    <p>Apps móviles y páginas web modernas, rápidas y que se ven bien. Diseño limpio que funciona en cualquier dispositivo.</p>
+                    <ul>
+                        <li>Frontend responsivo</li>
+                        <li>Interfaces intuitivas</li>
+                        <li>Optimizado para velocidad</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon">⚙️</div>
+                    <h3>Backend & Bases de datos</h3>
+                    <p>Servidores robustos, APIs REST, bases de datos escalables. Todo lo que necesitas para que tu app funcione sin problemas.</p>
+                    <ul>
+                        <li>APIs personalizadas</li>
+                        <li>Bases de datos optimizadas</li>
+                        <li>Autenticación segura</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon">🔗</div>
+                    <h3>Integraciones</h3>
+                    <p>Conecto tus sistemas favoritos. Gmail, Google Calendar, Stripe, OpenAI y cientos de APIs más.</p>
+                    <ul>
+                        <li>APIs de terceros</li>
+                        <li>Webhooks</li>
+                        <li>Sincronización de datos</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon">🚀</div>
+                    <h3>Deployment & DevOps</h3>
+                    <p>Tu solución en producción. Lo dejo listo en servidores como Railway, Vercel, AWS o donde prefieras.</p>
+                    <ul>
+                        <li>CI/CD automático</li>
+                        <li>Monitoreo 24/7</li>
+                        <li>Escalabilidad</li>
+                    </ul>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon">📊</div>
+                    <h3>Consultoría Tech</h3>
+                    <p>¿No sabes por dónde empezar? Te ayudo a elegir la tecnología correcta y a planificar tu proyecto.</p>
+                    <ul>
+                        <li>Arquitectura de sistemas</li>
+                        <li>Code review</li>
+                        <li>Optimización</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proyectos -->
+    <section id="proyectos">
+        <div class="container">
+            <h2>Mis proyectos</h2>
+            <p>Lo que he construido y estoy orgulloso de mostrar.</p>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">🤖</div>
+                    <div class="project-content">
+                        <span class="project-tag">Bot inteligente</span>
+                        <h3>Espartano</h3>
+                        <p>Un asistente de Telegram que gestiona tu Gmail, Google Calendar y responde con inteligencia artificial. Respuestas de voz con acento colombiano.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Telegram API</span>
+                            <span class="tech-tag">Claude AI</span>
+                            <span class="tech-tag">Railway</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">📱</div>
+                    <div class="project-content">
+                        <span class="project-tag">Desarrollo web</span>
+                        <h3>Proyecto en progreso</h3>
+                        <p>Trabajando en nuevas soluciones. Si tienes una idea en mente, este podría ser tu proyecto.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">APIs</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">🔧</div>
+                    <div class="project-content">
+                        <span class="project-tag">Automatización</span>
+                        <h3>Soluciones a medida</h3>
+                        <p>Cada negocio es diferente. Creo soluciones personalizadas que se ajustan exactamente a lo que necesitas.</p>
+                        <div class="tech-stack">
+                            <span class="tech-tag">Custom</span>
+                            <span class="tech-tag">Flexible</span>
+                            <span class="tech-tag">Tu marca</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Habilidades -->
+    <section id="habilidades">
+        <div class="container">
+            <h2>Mis habilidades</h2>
+            <p>Tecnologías que domino y con las que construyo soluciones sólidas.</p>
+            
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Backend</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Python</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Node.js</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>PostgreSQL</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Frontend</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>React</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>TypeScript</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Tailwind CSS</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Herramientas & APIs</h3>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>APIs REST</span>
+                            <span>92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Git & DevOps</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-name">
+                            <span>Integraciones IA</span>
+                            <span>87%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 87%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto">
+        <div class="container">
+            <h2>Empecemos tu proyecto</h2>
+            <p>¿Tienes una idea? Cuéntame al respecto. Sin compromiso, sin spam.</p>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Información de contacto</h3>
+                    
+                    <div class="contact-item">
+                        <label>📧 Email</label>
+                        <a href="mailto:henrytaborda57@gmail.com">henrytaborda57@gmail.com</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <label>💬 WhatsApp</label>
+                        <a href="https://wa.me/573245769748">+57 324 576 9748</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <label>🔗 LinkedIn</label>
+                        <a href="https://linkedin.com" target="_blank">linkedin.com/in/henrystark</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <label>💻 GitHub</label>
+                        <a href="https://github.com/HenryStark866" target="_blank">github.com/HenryStark866</a>
+                    </div>
+
+                    <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+                        <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                            ✨ Basado en Medellín, Colombia. Disponible para proyectos remotos en toda Latinoamérica.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 style="color: var(--accent); margin-bottom: 1.5rem;">Escribe tu mensaje</h3>
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <label>Tu nombre</label>
+                            <input type="text" name="name" required placeholder="¿Cómo te llamas?">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tu email</label>
+                            <input type="email" name="email" required placeholder="tu@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Cuéntame sobre tu proyecto</label>
+                            <textarea name="message" required placeholder="¿Qué necesitas? Sé específico si puedes."></textarea>
+                        </div>
+
+                        <button type="submit" class="cta-button" style="width: 100%;">Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Henry Stark</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Desarrollador de soluciones digitales. Convertimos ideas en código.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <a href="#servicios">Bots & Automatización</a>
+                    <a href="#servicios">Apps & Sitios Web</a>
+                    <a href="#servicios">Integraciones</a>
+                    <a href="#servicios">Consultoría</a>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Sígueme</h4>
+                    <a href="https://github.com" target="_blank">GitHub</a>
+                    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+                    <a href="https://twitter.com" target="_blank">Twitter</a>
+                    <a href="https://wa.me/573245769748" target="_blank">WhatsApp</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Henry Stark. Hecho con 💙 y código en Medellín, Colombia.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle network animation similar to Galactic AIMA
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Particle properties
+        const particles = [];
+        const particleCount = 50;
+        const connectionDistance = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 1.5 + 0.5;
+                this.color = ['rgba(0, 217, 255, 0.5)', 'rgba(255, 215, 0, 0.3)', 'rgba(0, 136, 255, 0.4)'][Math.floor(Math.random() * 3)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Bounce off walls
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Keep in bounds
+                this.x = Math.max(0, Math.min(canvas.width, this.x));
+                this.y = Math.max(0, Math.min(canvas.height, this.y));
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles.length = 0;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        // Draw connection lines between nearby particles
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        const opacity = (1 - distance / connectionDistance) * 0.3;
+                        ctx.strokeStyle = `rgba(0, 217, 255, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Start animation
+        initParticles();
+        animate();
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Preparar el mensaje para WhatsApp
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+            
+            const whatsappMessage = `Hola Henry, mi nombre es ${name}, mi email es ${email}. Mi mensaje: ${message}`;
+            const whatsappUrl = `https://wa.me/573245769748?text=${encodeURIComponent(whatsappMessage)}`;
+            
+            window.open(whatsappUrl, '_blank');
+            form.reset();
+        }
+
+        // Navbar transparency on scroll
+        const navbar = document.querySelector('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.borderBottomColor = 'rgba(26, 47, 74, 0.5)';
+            } else {
+                navbar.style.borderBottomColor = 'var(--border)';
+            }
+        });
+    </script>
+</body>
+</html>
